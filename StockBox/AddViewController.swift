@@ -43,6 +43,11 @@ class AddViewController: UIViewController {
     }
     
     
+    @IBAction func unwindToThisViewController(segue: UIStoryboardSegue) {
+        print("Returned from detail screen")
+    }
+    
+    
     
 //ADD/UPDATE ENTRY
     
@@ -57,13 +62,23 @@ class AddViewController: UIViewController {
     
 //DELETE ENTRY
     
-    func deleteEntry(entryToBeDeleted : StockEntry) {
+    
+    @IBAction func deleteButton(sender: UIButton) {
         
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-            
-            appDelegate.managedObjectContext.delete(entryToBeDeleted)
-        }
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                
+                    appDelegate.managedObjectContext.delete(recievedEntry)
+                
+            }
     }
+    
+//    func deleteEntry(entryToBeDeleted : StockEntry) {
+//        
+//        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+//            
+//            appDelegate.managedObjectContext.delete(entryToBeDeleted)
+//        }
+//    }
     
     
     
@@ -80,11 +95,14 @@ class AddViewController: UIViewController {
             if let newEntry = NSEntityDescription.insertNewObjectForEntityForName("StockEntry", inManagedObjectContext: appDelegate.managedObjectContext) as? StockEntry {
                 
                 //populate it
-                newEntry.imageReference = "photo.jpg"
-                newEntry.stockNumber = "00000000"
-                newEntry.website = "shutterstock.com"
-                newEntry.clientName = "eviva"
-                newEntry.projectNumber = "0000"
+                newEntry.imageReference = imageField.text
+                newEntry.stockNumber = stockNumber.text
+                newEntry.website = website.text
+                newEntry.clientName = clientName.text
+                newEntry.projectNumber = taskNumber.text
+                
+                //send update notification
+                DataManager.sharedManager.publishMessage(true)
                 
                 //save it
                 do {

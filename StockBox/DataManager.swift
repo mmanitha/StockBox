@@ -41,8 +41,15 @@ class DataManager {
 //    }
         func getLibrary() -> [StockEntry] {
     
+            self.StockLibrary = self.loadEntries()
             return self.StockLibrary
         }
+    
+    
+    func getLibraryAfterSearch() -> [StockEntry] {
+        
+        return self.StockLibrary
+    }
     
     
 //updates entry in StockLibrary
@@ -70,7 +77,21 @@ class DataManager {
 //        return false
 //    }
     
+//SEARCH FUNCTION
     
+    func search(input: String) -> [StockEntry] {
+        
+        //let searchResults = self.StockLibrary.filter{$0.stockNumber == input}
+        var searchResultsArray : [StockEntry] = [StockEntry]()
+        for x in StockLibrary {
+            if x.stockNumber == input {
+                print(x.stockNumber! + ": " + x.clientName!)
+                searchResultsArray += [x]
+            }
+        }
+        self.StockLibrary = searchResultsArray
+        return StockLibrary
+    }
 
     
     

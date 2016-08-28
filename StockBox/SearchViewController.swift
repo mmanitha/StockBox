@@ -10,83 +10,118 @@ import UIKit
 import CoreData
 
 class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    @IBOutlet weak var mainTable: UITableView!
     
     var StockLibrary : [StockEntry]? = [StockEntry]()
     
-//    var testLibrary = [String]()
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.StockLibrary = DataManager.sharedManager.getLibrary()
-//        self.testLibrary = DataManager.sharedManager.getEntries()
         
         self.mainTable.dataSource = self
         self.mainTable.delegate = self
         
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(entryChangedFunction), name: "ENTRY_CHANGED", object: nil)
-//        
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(onNewEntryAdded), name: "ENTRY_ADDED", object: nil)
-//        
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(onEntryDeleted), name: "ENTRY_DELETED", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(entryChangedFunction), name: "ENTRY_CHANGED", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(onNewEntryAdded), name: "ENTRY_ADDED", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(onEntryDeleted), name: "ENTRY_DELETED", object: nil)
         
     }
     
-    
-//    @objc func entryChangedFunction(msg:NSNotification) {
-//        
-//        if let userInfo = msg.userInfo as? [String : Bool] {
-//            if userInfo["message"] == true {
-//                
-//                self.StockLibrary = DataManager.sharedManager.getEntries()
-//                self.mainTable.reloadData()
-//            }
-//        }
-//    }
-//    
-//    @objc func onNewEntryAdded(msg:NSNotification) {
-//        
-//        if let userInfo = msg.userInfo as? [String : Bool] {
-//            if userInfo["message"] == true {
-//                
-//                self.StockLibrary = DataManager.sharedManager.getEntries()
-//                self.mainTable.reloadData()
-//            }
-//        }
-//        
-//    }
-//    
-//    @objc func onEntryDeleted(msg: NSNotification) {
-//        
-//        if let userInfo = msg.userInfo as? [String : Bool] {
-//            if userInfo["message"] == true {
-//                
-//                self.StockLibrary = DataManager.sharedManager.getEntries()
-//                self.mainTable.reloadData()
-//            }
-//        }
-//    }
-    
-    
-    
-    
-    
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
     
-//TABLE FUNCTIONS
     
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    //NOTIFICATION FUNCTIONS
+    
+    @objc func entryChangedFunction(msg:NSNotification) {
         
-//        return testLibrary.count
+        if let userInfo = msg.userInfo as? [String : Bool] {
+            if userInfo["message"] == true {
+                
+                self.StockLibrary = DataManager.sharedManager.getLibrary()
+                self.mainTable.reloadData()
+            }
+        }
+    }
+    
+    @objc func onNewEntryAdded(msg:NSNotification) {
+        
+        if let userInfo = msg.userInfo as? [String : Bool] {
+            if userInfo["message"] == true {
+                
+                self.StockLibrary = DataManager.sharedManager.getLibrary()
+                self.mainTable.reloadData()
+            }
+        }
+        
+    }
+    
+    @objc func onEntryDeleted(msg: NSNotification) {
+        
+        if let userInfo = msg.userInfo as? [String : Bool] {
+            if userInfo["message"] == true {
+                
+                self.StockLibrary = DataManager.sharedManager.getLibrary()
+                self.mainTable.reloadData()
+            }
+        }
+    }
+    
+    
+    
+    //SEARCH FUNCTIONS HERE
+    
+    @IBOutlet weak var searchField: UITextField!
+    
+    @IBAction func searchButton(sender: UIButton) {
+        
+        self.StockLibrary = DataManager.sharedManager.getLibrary()
+
+        
+        if (searchField.text == "") {
+            
+            self.StockLibrary = DataManager.sharedManager.getLibrary()
+            self.mainTable.reloadData()
+            
+        } else if (searchField.text != nil) {
+            
+            let searchItem = searchField.text
+            if let si = searchItem {
+                DataManager.sharedManager.search(si)
+            }
+            self.StockLibrary = DataManager.sharedManager.getLibraryAfterSearch()
+            self.mainTable.reloadData()
+            
+        }
+        
+    }
+    
+    
+    
+    //TABLE ELEMENTS HERE
+    
+    @IBOutlet weak var mainTable: UITableView!
+    
+    
+    var sendContact : Int?
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //TABLE FUNCTIONS
+    
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if let x = StockLibrary {
             
@@ -96,14 +131,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             return 0
         }
     }
-
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
+        
         let cell = UITableViewCell()
         
-//        let x = indexPath.row
-//        cell.textLabel?.text = testLibrary[x]
-
         if let x = StockLibrary {
             
             cell.textLabel?.text = x[indexPath.row].stockNumber
@@ -111,6 +143,33 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         
         return cell
     }
-
+    
+    
+    
+    //push data to the next VC
+    
+    //tableView Delegate Code
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        sendContact = indexPath.row
+        
+        self.performSegueWithIdentifier("ShowDetail", sender: self)
+    }
+    
+    //push content
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let index = sendContact {
+            if let NextVC = segue.destinationViewController as? AddViewController {
+                if let x = StockLibrary {
+                    NextVC.recievedEntry = x[index]
+                }
+                
+                //SETTING THE DELEGATE!!! ¯\_(ツ)_/¯
+                //NextVC.delegate = self
+            }
+        }
+    }
+    
+    
 }
 
