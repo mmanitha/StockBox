@@ -153,13 +153,13 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         
         sendContact = indexPath.row
         
-        self.performSegueWithIdentifier("ShowDetail", sender: self)
+        self.performSegueWithIdentifier("showDetail", sender: self)
     }
     
     //push content
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let index = sendContact {
-            if let NextVC = segue.destinationViewController as? AddViewController {
+            if let NextVC = segue.destinationViewController as? DetailViewController {
                 if let x = StockLibrary {
                     NextVC.recievedEntry = x[index]
                 }
@@ -168,6 +168,12 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                 //NextVC.delegate = self
             }
         }
+    }
+    
+    
+    
+    @IBAction func unwindToThisViewController(segue: UIStoryboardSegue) {
+        print("Returned from detail screen")
     }
     
     

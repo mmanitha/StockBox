@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A49573E61D72727B00807C82 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49573E51D72727B00807C82 /* DetailViewController.swift */; };
 		A4DCEAF61D6BCC9A009DDEE7 /* StockEntryModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A4DCEAF41D6BCC9A009DDEE7 /* StockEntryModel.xcdatamodeld */; };
 		A4DCEAF91D6BCD78009DDEE7 /* StockEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DCEAF71D6BCD78009DDEE7 /* StockEntry+CoreDataProperties.swift */; };
 		A4DCEAFA1D6BCD78009DDEE7 /* StockEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DCEAF81D6BCD78009DDEE7 /* StockEntry.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A49573E51D72727B00807C82 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		A4DCEAF51D6BCC9A009DDEE7 /* StockEntryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StockEntryModel.xcdatamodel; sourceTree = "<group>"; };
 		A4DCEAF71D6BCD78009DDEE7 /* StockEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StockEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A4DCEAF81D6BCD78009DDEE7 /* StockEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockEntry.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				A4E8536A1D6BC5010077ABCB /* SearchViewController.swift */,
 				A4E8536C1D6BC5010077ABCB /* AddViewController.swift */,
 				A4E8537C1D6BC6BD0077ABCB /* ViewAllViewController.swift */,
+				A49573E51D72727B00807C82 /* DetailViewController.swift */,
 				A4E8536E1D6BC5010077ABCB /* Main.storyboard */,
 				A4DCEAF41D6BCC9A009DDEE7 /* StockEntryModel.xcdatamodeld */,
 				A4E853711D6BC5010077ABCB /* Assets.xcassets */,
@@ -153,6 +156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A49573E61D72727B00807C82 /* DetailViewController.swift in Sources */,
 				A4E8536D1D6BC5010077ABCB /* AddViewController.swift in Sources */,
 				A4DCEAFC1D6BCF03009DDEE7 /* DataManager.swift in Sources */,
 				A4E8537D1D6BC6BD0077ABCB /* ViewAllViewController.swift in Sources */,

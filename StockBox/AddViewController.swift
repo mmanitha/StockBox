@@ -15,6 +15,7 @@ import CoreData
 class AddViewController: UIViewController {
 
     var recievedEntry : StockEntry?
+    var checkStockNumber : String = ""
     
     @IBOutlet weak var imageField: UITextField!
     @IBOutlet weak var stockNumber: UITextField!
@@ -27,14 +28,9 @@ class AddViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //IF entries were pushed in, fill fields with information:
-        if let x = recievedEntry {
-            imageField.text = x.imageReference
-            stockNumber.text = x.stockNumber
-            website.text = x.website
-            clientName.text = x.clientName
-            taskNumber.text = x.projectNumber
-        }
+
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,30 +54,7 @@ class AddViewController: UIViewController {
     }
     
     
-    
-    
-//DELETE ENTRY
-    
-    
-    @IBAction func deleteButton(sender: UIButton) {
-        
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                
-                    appDelegate.managedObjectContext.delete(recievedEntry)
-                
-            }
-    }
-    
-//    func deleteEntry(entryToBeDeleted : StockEntry) {
-//        
-//        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-//            
-//            appDelegate.managedObjectContext.delete(entryToBeDeleted)
-//        }
-//    }
-    
-    
-    
+ 
     
 //Button Action
     
@@ -101,12 +74,17 @@ class AddViewController: UIViewController {
                 newEntry.clientName = clientName.text
                 newEntry.projectNumber = taskNumber.text
                 
-                //send update notification
-                DataManager.sharedManager.publishMessage(true)
                 
                 //save it
                 do {
-                    try appDelegate.managedObjectContext.save()
+                    if newEntry.stockNumber != checkStockNumber {
+                        
+                            try appDelegate.managedObjectContext.save()
+                            
+                            //send update notification
+                            DataManager.sharedManager.publishMessage(true)
+                    }
+                    
                 }
                 catch {
                     print(error)
