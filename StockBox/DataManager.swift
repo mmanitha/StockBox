@@ -151,7 +151,45 @@ class DataManager {
     
     
     
+    //DELETE ENTRY
     
+//    func DeleteEntry(indexToBeDeleted : Int) -> [StockEntry] {
+//        
+//        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+//            
+//            //let fetch = NSFetchRequest(entityName: "StockEntry")
+//            
+//            //configure predicate property here
+//        
+//            do {
+//                
+//                //if let results = try appDelegate.managedObjectContext.executeFetchRequest(fetch) as? [StockEntry] {
+//                    
+//                    appDelegate.managedObjectContext.deleteObject(StockLibrary[indexToBeDeleted])
+//                    
+//                    //appDelegate.managedObjectContext.save()
+//                    
+//                    StockLibrary.removeAtIndex(indexToBeDeleted)
+//                //}
+//                
+//                try appDelegate.managedObjectContext.save()
+//                
+//            }
+//                
+//            catch {
+//                
+//                print(error)
+//            }
+//            
+//            
+//        }
+//        
+//        return StockLibrary
+//        
+//    }
+//    
+    
+
     
     
     ////Add entry

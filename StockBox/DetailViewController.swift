@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class DetailViewController: UIViewController {
     
@@ -46,12 +47,58 @@ class DetailViewController: UIViewController {
     
     @IBAction func deleteButton(sender: UIButton) {
         
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+        if let x = recievedEntry {
             
-            appDelegate.managedObjectContext.delete(recievedEntry)
-            
+            deleteEntry(x.stockNumber!)
         }
+    
+        
+//        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+//            
+//            appDelegate.managedObjectContext.delete(recievedEntry)
+//            
+//        }
     }
+    
+    
+    func deleteEntry(stockNumberToBeDeleted : String) {
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        
+        if let context = appDelegate?.managedObjectContext {
+            
+            do {
+                
+                let fetchRequest = NSFetchRequest(entityName: "StockEntry")
+                
+                let entries = try(context.executeFetchRequest(fetchRequest) as? [StockEntry])
+                
+                
+                for x in entries! {
+                    if x.stockNumber == stockNumberToBeDeleted {
+                        context.deleteObject(x)
+                    }
+                }
+                
+                try(context.save())
+                
+                DataManager.sharedManager.publishMessageDelete(true)
+                
+            }
+            catch {
+                
+                print(error)
+            }
+        }
+        
+    }
+    
+    
+
+    
+    
+    
+    
     
     //    func deleteEntry(entryToBeDeleted : StockEntry) {
     //

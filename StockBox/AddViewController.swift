@@ -13,7 +13,7 @@ import CoreData
 
 
 class AddViewController: UIViewController {
-
+    
     var recievedEntry : StockEntry?
     var checkStockNumber : String = ""
     
@@ -28,11 +28,8 @@ class AddViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
-        
-        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -45,59 +42,76 @@ class AddViewController: UIViewController {
     
     
     
-//ADD/UPDATE ENTRY
+    //ADD/UPDATE ENTRY
     
     func addEntry() {
         
-
+        
         
     }
     
     
- 
     
-//Button Action
     
-
+    //Button Action
+    
+    
     @IBAction func saveEntryButton(sender: UIButton) {
         
         //instantiate the appDelegate
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        
+        if let context = appDelegate?.managedObjectContext {
             
-            //create new empty entry
-            if let newEntry = NSEntityDescription.insertNewObjectForEntityForName("StockEntry", inManagedObjectContext: appDelegate.managedObjectContext) as? StockEntry {
+            let fetchRequest = NSFetchRequest(entityName: "StockEntry")
+            
+            
+            do {
+                let entries = try(context.executeFetchRequest(fetchRequest) as? [StockEntry])
                 
-                //populate it
-                newEntry.imageReference = imageField.text
-                newEntry.stockNumber = stockNumber.text
-                newEntry.website = website.text
-                newEntry.clientName = clientName.text
-                newEntry.projectNumber = taskNumber.text
+                var verificationArray : [StockEntry] = [StockEntry]()
                 
-                
-                //save it
-                do {
-                    if newEntry.stockNumber != checkStockNumber {
+                for x in entries! {
+                    
+                    if x.stockNumber == stockNumber.text {
                         
-                            try appDelegate.managedObjectContext.save()
-                            
-                            //send update notification
-                            DataManager.sharedManager.publishMessage(true)
+                        verificationArray += [x]
+                        
+                    }
+                }
+                
+                if verificationArray.count == 0 {
+                    
+                    //create new empty entry
+                    if let newEntry = NSEntityDescription.insertNewObjectForEntityForName("StockEntry", inManagedObjectContext: context) as? StockEntry {
+                        
+                        //populate it
+                        newEntry.imageReference = imageField.text
+                        newEntry.stockNumber = stockNumber.text
+                        newEntry.website = website.text
+                        newEntry.clientName = clientName.text
+                        newEntry.projectNumber = taskNumber.text
                     }
                     
+                    //save it
+                    try context.save()
+                    
+                    //send update notification
+                    DataManager.sharedManager.publishMessage(true)
                 }
-                catch {
-                    print(error)
-                }
+            }
+                
+            catch {
+                print(error)
             }
         }
     }
     
-
     
     
     
-//END OF CLASS
+    
+    //END OF CLASS
+    
     
 }
-
