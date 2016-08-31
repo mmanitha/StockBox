@@ -2,7 +2,7 @@
 //  StockEntry+CoreDataProperties.swift
 //  StockBox
 //
-//  Created by Michael Manisa on 8/27/16.
+//  Created by Michael Manisa on 8/31/16.
 //  Copyright © 2016 Michael Manisa. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu

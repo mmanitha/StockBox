@@ -13,7 +13,7 @@ class DetailViewController: UIViewController {
     
     var recievedEntry : StockEntry?
 
-    @IBOutlet weak var imgReferenceLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var stockNumberLabel: UILabel!
     @IBOutlet weak var sourceWebsiteLabel: UILabel!
     @IBOutlet weak var clientNameLabel: UILabel!
@@ -23,10 +23,14 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+
 
         //IF entries were pushed in, fill fields with information:
         if let x = recievedEntry {
-            imgReferenceLabel.text = x.imageReference
+            if let y = recievedEntry?.imageReference {
+                imageView.image = DataManager.sharedManager.loadImage(y)
+            }
             stockNumberLabel.text = x.stockNumber
             sourceWebsiteLabel.text = x.website
             clientNameLabel.text = x.clientName

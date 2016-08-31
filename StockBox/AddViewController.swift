@@ -12,22 +12,31 @@ import UIKit
 import CoreData
 
 
-class AddViewController: UIViewController {
+class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var recievedEntry : StockEntry?
     var checkStockNumber : String = ""
     
-    @IBOutlet weak var imageField: UITextField!
     @IBOutlet weak var stockNumber: UITextField!
     @IBOutlet weak var website: UITextField!
     @IBOutlet weak var clientName: UITextField!
     @IBOutlet weak var taskNumber: UITextField!
     
+    @IBOutlet weak var imageView: UIImageView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+    }
+    
+    func dismissKeyboard() {
+        
+        self.view.endEditing(true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -39,6 +48,31 @@ class AddViewController: UIViewController {
     @IBAction func unwindToThisViewController(segue: UIStoryboardSegue) {
         print("Returned from detail screen")
     }
+    
+    
+    
+    //ADD PHOTO FROM CAMERA INTO IMAGEVIEW
+    
+    @IBAction func openCamera(sender: UIButton) {
+        
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera;
+            imagePicker.allowsEditing = false
+            self.presentViewController(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        imageView.image = image
+        self.dismissViewControllerAnimated(true, completion: nil);
+    }
+    
+    
+
+    
     
     
     
@@ -82,11 +116,20 @@ class AddViewController: UIViewController {
                 
                 if verificationArray.count == 0 {
                     
+                    //variable to store image path once saveImage func has returned it
+                    var imagePath : String?
+                    
+                    if let x = imageView.image {
+                        imagePath = DataManager.sharedManager.saveImage(x)
+                    }
+                    
+                    print(imagePath) // -> print out path just for verification
+                    
                     //create new empty entry
                     if let newEntry = NSEntityDescription.insertNewObjectForEntityForName("StockEntry", inManagedObjectContext: context) as? StockEntry {
                         
                         //populate it
-                        newEntry.imageReference = imageField.text
+                        newEntry.imageReference = imagePath
                         newEntry.stockNumber = stockNumber.text
                         newEntry.website = website.text
                         newEntry.clientName = clientName.text

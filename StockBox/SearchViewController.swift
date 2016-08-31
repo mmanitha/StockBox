@@ -27,7 +27,19 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(onEntryDeleted), name: "ENTRY_DELETED", object: nil)
         
+        //this code below is making things wonky
+        
+//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+//        view.addGestureRecognizer(tap)
+        
     }
+    
+    
+    func dismissKeyboard() {
+        
+        view.endEditing(true)
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -163,9 +175,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                 if let x = StockLibrary {
                     NextVC.recievedEntry = x[index]
                 }
-                
-                //SETTING THE DELEGATE!!! ¯\_(ツ)_/¯
-                //NextVC.delegate = self
             }
         }
     }

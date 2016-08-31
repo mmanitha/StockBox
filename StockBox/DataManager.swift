@@ -151,6 +151,91 @@ class DataManager {
     
     
     
+    
+    //----------------IMAGE RESIZE----------------
+    
+    
+    func ResizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / image.size.width
+        let heightRatio = targetSize.height / image.size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSizeMake(size.width * heightRatio, size.height * heightRatio)
+        } else {
+            newSize = CGSizeMake(size.width * widthRatio,  size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRectMake(0, 0, newSize.width, newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.drawInRect(rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+    
+    
+    //self.ResizeImage(UIImage(named: "yourImageName")!, targetSize: CGSizeMake(200.0, 200.0))
+
+    
+    
+    
+    
+    //----------------SERIALIZATION STUFF-----------------
+    
+    
+    //SAVING TO DISK - (reasoning) creates destination path, saves it, then returns the path so the StockEntry entity can store it.
+    
+    
+    func saveImage(image : UIImage) -> String {
+        
+        let destinationPath =  self.filePathForArchiving()
+        NSKeyedArchiver.archiveRootObject(image, toFile:destinationPath)
+        
+        return destinationPath
+    }
+    
+
+    //LOADING FROM DISK - (reasoning) public loadImage function that will take a destination path in the form of a String to return a requested image from the disk.
+
+    func loadImage(requestedPath : String) -> UIImage {
+        
+        let destinationPath = requestedPath
+        
+        if let requestedImage : UIImage = NSKeyedUnarchiver.unarchiveObjectWithFile(destinationPath) as? UIImage {
+            
+            return requestedImage
+        }
+        
+        return UIImage()
+    }
+    
+    
+    //creating file in which to store images
+    
+    private func filePathForArchiving() -> String {
+        
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let destinationPath = "\(documentsPath)/SavedImages"
+        
+        return destinationPath
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //DELETE ENTRY
     
 //    func DeleteEntry(indexToBeDeleted : Int) -> [StockEntry] {
