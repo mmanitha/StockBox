@@ -144,13 +144,24 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    //something funky going on here... when i added this, it made all photos change
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomCellTableViewCell
+        
+        cell.imageThumbView.image = nil
         
         if let x = StockLibrary {
             
-            cell.textLabel?.text = x[indexPath.row].stockNumber
+            cell.stockNumberLabel.text = x[indexPath.row].stockNumber
+            cell.clientNameLabel.text = x[indexPath.row].clientName
+            
+            var img : UIImage?
+            if let y = x[indexPath.row].thumbnailReference {
+                img = DataManager.sharedManager.loadImage(y)
+            }
+            cell.imageThumbView.image = img
+            
         }
         
         return cell
@@ -177,6 +188,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         }
+        print(StockLibrary)
     }
     
     

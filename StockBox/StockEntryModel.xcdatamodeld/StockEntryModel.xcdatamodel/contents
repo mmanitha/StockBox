@@ -5,9 +5,10 @@
         <attribute name="imageReference" optional="YES" attributeType="String" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="projectNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stockNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnailReference" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="website" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="StockEntry" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="StockEntry" positionX="-63" positionY="-18" width="128" height="135"/>
     </elements>
 </model>

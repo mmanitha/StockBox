@@ -14,7 +14,7 @@ import CoreData
 
 class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    var recievedEntry : StockEntry?
+    //var recievedEntry : StockEntry?
     var checkStockNumber : String = ""
     
     @IBOutlet weak var stockNumber: UITextField!
@@ -72,17 +72,7 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
     
     
 
-    
-    
-    
-    
-    //ADD/UPDATE ENTRY
-    
-    func addEntry() {
-        
-        
-        
-    }
+
     
     
     
@@ -118,22 +108,38 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
                     
                     //variable to store image path once saveImage func has returned it
                     var imagePath : String?
+                    var thumbPath : String?
                     
-                    if let x = imageView.image {
-                        imagePath = DataManager.sharedManager.saveImage(x)
+                    if let unwrapImageViewImage = imageView.image {
+                        imagePath = DataManager.sharedManager.saveImage(unwrapImageViewImage)
+                        
+                        let resizedImage = DataManager.sharedManager.ResizeImage(unwrapImageViewImage, targetSize: CGSizeMake(200.0, 200.0))
+                        
+                        thumbPath = DataManager.sharedManager.saveImage(resizedImage)
                     }
                     
                     print(imagePath) // -> print out path just for verification
+                    
                     
                     //create new empty entry
                     if let newEntry = NSEntityDescription.insertNewObjectForEntityForName("StockEntry", inManagedObjectContext: context) as? StockEntry {
                         
                         //populate it
-                        newEntry.imageReference = imagePath
+                        
+                        if let url2 = NSURL(string: imagePath!) {
+                            
+                                newEntry.imageReference = url2.lastPathComponent
+                        }
+                        //newEntry.imageReference = imagePath!
                         newEntry.stockNumber = stockNumber.text
                         newEntry.website = website.text
                         newEntry.clientName = clientName.text
                         newEntry.projectNumber = taskNumber.text
+                        
+                        if let url = NSURL(string: thumbPath!) {
+                            
+                                newEntry.thumbnailReference = url.lastPathComponent
+                        }
                     }
                     
                     //save it

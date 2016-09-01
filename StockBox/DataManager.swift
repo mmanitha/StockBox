@@ -196,8 +196,19 @@ class DataManager {
     
     func saveImage(image : UIImage) -> String {
         
-        let destinationPath =  self.filePathForArchiving()
-        NSKeyedArchiver.archiveRootObject(image, toFile:destinationPath)
+        let destinationPath =  "\(self.filePathForArchiving())/\(NSUUID().UUIDString).png"
+        
+        let converter = UIImagePNGRepresentation(image)
+        
+        
+        
+        do {
+            try converter?.writeToFile(destinationPath, options: .AtomicWrite)
+        }
+        catch {
+         
+            print(error)
+        }
         
         return destinationPath
     }
@@ -205,16 +216,14 @@ class DataManager {
 
     //LOADING FROM DISK - (reasoning) public loadImage function that will take a destination path in the form of a String to return a requested image from the disk.
 
-    func loadImage(requestedPath : String) -> UIImage {
+    func loadImage(requestedPath : String) -> UIImage? {
         
-        let destinationPath = requestedPath
+        let baseUrl = self.filePathForArchiving()
         
-        if let requestedImage : UIImage = NSKeyedUnarchiver.unarchiveObjectWithFile(destinationPath) as? UIImage {
-            
-            return requestedImage
-        }
+        let destinationPath = "\(baseUrl)/\(requestedPath)"
         
-        return UIImage()
+        return UIImage(contentsOfFile: destinationPath)
+        
     }
     
     
@@ -223,9 +232,9 @@ class DataManager {
     private func filePathForArchiving() -> String {
         
         let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-        let destinationPath = "\(documentsPath)/SavedImages"
+//        let destinationPath = "\(documentsPath)/SavedImages"
         
-        return destinationPath
+        return documentsPath
     }
     
     

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A49573E61D72727B00807C82 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49573E51D72727B00807C82 /* DetailViewController.swift */; };
+		A49573E81D76B5CF00807C82 /* CustomCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49573E71D76B5CF00807C82 /* CustomCellTableViewCell.swift */; };
 		A4DCEAF61D6BCC9A009DDEE7 /* StockEntryModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A4DCEAF41D6BCC9A009DDEE7 /* StockEntryModel.xcdatamodeld */; };
 		A4DCEAF91D6BCD78009DDEE7 /* StockEntry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DCEAF71D6BCD78009DDEE7 /* StockEntry+CoreDataProperties.swift */; };
 		A4DCEAFA1D6BCD78009DDEE7 /* StockEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DCEAF81D6BCD78009DDEE7 /* StockEntry.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		A49573E51D72727B00807C82 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		A49573E71D76B5CF00807C82 /* CustomCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCellTableViewCell.swift; sourceTree = "<group>"; };
 		A4DCEAF51D6BCC9A009DDEE7 /* StockEntryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StockEntryModel.xcdatamodel; sourceTree = "<group>"; };
 		A4DCEAF71D6BCD78009DDEE7 /* StockEntry+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StockEntry+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A4DCEAF81D6BCD78009DDEE7 /* StockEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockEntry.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				A4E853731D6BC5010077ABCB /* LaunchScreen.storyboard */,
 				A4E853761D6BC5010077ABCB /* Info.plist */,
 				A4DCEAFB1D6BCF03009DDEE7 /* DataManager.swift */,
+				A49573E71D76B5CF00807C82 /* CustomCellTableViewCell.swift */,
 			);
 			path = StockBox;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 				A4E853691D6BC5010077ABCB /* AppDelegate.swift in Sources */,
 				A4E8536B1D6BC5010077ABCB /* SearchViewController.swift in Sources */,
 				A4DCEAFA1D6BCD78009DDEE7 /* StockEntry.swift in Sources */,
+				A49573E81D76B5CF00807C82 /* CustomCellTableViewCell.swift in Sources */,
 				A4DCEAF91D6BCD78009DDEE7 /* StockEntry+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

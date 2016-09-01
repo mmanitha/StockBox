@@ -19,5 +19,6 @@ extension StockEntry {
     @NSManaged var projectNumber: String?
     @NSManaged var stockNumber: String?
     @NSManaged var website: String?
+    @NSManaged var thumbnailReference: String?
 
 }
